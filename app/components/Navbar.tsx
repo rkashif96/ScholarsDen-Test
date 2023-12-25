@@ -1,10 +1,14 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 function Navbar() {
   const pathName = usePathname();
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(() => {
+    setIsLoggedIn(localStorage.getItem('isLoggedIn') == 'success')
+  }, [])
   return (
     <nav className="bg-gray-800 p-4">
       <div className='flex justify-start'>
@@ -17,13 +21,13 @@ function Navbar() {
               </Link>
             )}
 
-            {(pathName !== '/signup' && localStorage.getItem('isLoggedIn') != 'success') && (
+            {(pathName !== '/signup' && !isLoggedIn) && (
               <Link className="text-white" href="/signup">
                 Signup
               </Link>
             )}
 
-            {(pathName !== '/login' && localStorage.getItem('isLoggedIn') != 'success') && (
+            {(pathName !== '/login' && !isLoggedIn) && (
               <Link className="text-white" href="/login">
                 Login
               </Link>
@@ -31,7 +35,7 @@ function Navbar() {
           </div>
         </div>
         <div >
-          {(pathName !== '/logout' && localStorage.getItem('isLoggedIn') == 'success') && (
+          {(pathName !== '/logout' && isLoggedIn) && (
             <Link className="text-white" href="/logout">
               Logout
             </Link>
