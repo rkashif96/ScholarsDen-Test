@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import MyTextField from '../components/MyTextField';
 import MyButton from '../components/MyButton';
 import axios from '../lib/axios';
@@ -13,6 +13,13 @@ interface FormData {
 
 const Signup = () => {
   const router = useRouter();
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      alert('You need to logout first')
+      router.push('/')
+    }
+  })
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -32,7 +39,6 @@ const Signup = () => {
       if (res.data.status == 200) {
         router.push('/login');
       }
-      console.log('Submitted:', res);
     }).catch((err: any) => {
       console.log(err)
     })
@@ -69,6 +75,7 @@ const Signup = () => {
           />
 
           <MyButton
+            id="signUpButton"
             type="submit"
             text="Sign Up"
             className="bg-blue-500 text-white w-full px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 mt-3"

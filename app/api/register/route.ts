@@ -16,7 +16,7 @@ export const POST = async (request: Request) => {
       const obj = await UserModel.create({
         name,
         email,
-        password: await bcrypt.hash(password, 10)
+        password
       })
       return Response(obj, 200)
     }

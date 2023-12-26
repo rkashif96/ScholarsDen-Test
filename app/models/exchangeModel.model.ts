@@ -12,6 +12,10 @@ const exchangeSchema = new mongoose.Schema({
     exchangedAmount: {
         type: String,
         required: true,
+    },
+    currency: {
+        type: String,
+        required: true,
     }
 })
 

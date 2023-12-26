@@ -20,7 +20,8 @@ export const POST = async (request: Request) => {
     let exchange = await Exchange.create({
       country: country.name.common,
       amount,
-      exchangedAmount: amount * exchangeRate
+      exchangedAmount: amount * exchangeRate,
+      currency: symbol
     })
     return Response(exchange, 200)
   } catch (error: any) {

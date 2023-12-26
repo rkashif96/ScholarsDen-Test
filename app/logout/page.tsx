@@ -1,29 +1,26 @@
 "use client";
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import MyTextField from '../components/MyTextField';
 import MyButton from '../components/MyButton';
 import axios from '../lib/axios';
 import { useRouter } from 'next/navigation';
 
-interface FormData {
-  email: string;
-  password: string;
-}
-
 const Login = () => {
   const router = useRouter();
-
+  const [error, setError] = useState('')
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios.get('/logout').then((res) => {
-      if (res.data.status == 400) {
-        localStorage.clear();
+    try {
+      axios.get('/logout').then((res) => {
+        if (res.data.status == 400) {
+          alert(res.data.obj.message)
+        } else {
+          localStorage.clear();
+        }
         router.push('/login')
-      }
-      localStorage.clear();
-      router.push('/signup')
-
-    });
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -38,6 +35,7 @@ const Login = () => {
           </div>
           <div className="flex items-center justify-center">
             <MyButton
+              id='logoutButton'
               type="submit"
               text="Log Out"
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"

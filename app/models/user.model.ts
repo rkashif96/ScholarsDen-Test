@@ -1,7 +1,7 @@
 
 import mongoose from 'mongoose'
 const validator = require('validator')
-const bcrypt = require('bcrypt')
+import bcrypt from 'bcrypt'
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -21,8 +21,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
     try {
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(this.password, salt)
+        const hashedPassword = await bcrypt.hash(this.password, 10)
         this.password = hashedPassword
         next()
     } catch (error: any) {

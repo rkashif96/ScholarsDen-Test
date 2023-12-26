@@ -24,8 +24,7 @@ const Home = () => {
     useEffect(() => {
         try {
             axios.get('/country').then(res => {
-                console.log(res.data.obj)
-                if (res.data.obj.status != 400) {
+                if (res.data.status == 200) {
                     let updatedcountriesDropDown = res.data.obj.countries.map((country: any) => {
                         return country.name.common;
                     })
@@ -46,7 +45,6 @@ const Home = () => {
         let tempCountry = countries.find((country: any) => {
             return country.name.common == e
         })
-        console.log(tempCountry)
         setCountry(tempCountry)
         setFormData({
             ...formData,
@@ -72,11 +70,9 @@ const Home = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData, 'Form Data: ')
         axios.post('/country', formData).then((res) => {
             let updatedposts = [...posts]
             updatedposts.push(res.data.obj)
-            console.log('Submitted:', updatedposts, res.data.obj);
             setPosts(updatedposts)
 
         }).catch(err => {
@@ -94,6 +90,7 @@ const Home = () => {
                             <MySearchableDropdown
                                 label={"Country"}
                                 options={countriesDropDown}
+                                setOptions={setCountriesDropDown}
                                 onSelect={handleDropDownChange}
                             />
                         </div>
@@ -109,7 +106,7 @@ const Home = () => {
                         </div>
 
                         <div className="flex items-center justify-center">
-                            <MyButton type="submit" text="Search" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" />
+                            <MyButton id="addExchangeButton" type="submit" text="Search" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" />
                         </div>
                     </form>
                 </div>

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import MyTextField from '../components/MyTextField';
 import MyButton from '../components/MyButton';
 import axios from '../lib/axios';
@@ -12,6 +12,13 @@ interface FormData {
 
 const Login = () => {
   const router = useRouter();
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      alert('User Already Logged In')
+      router.push('/')
+    }
+  })
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -28,9 +35,11 @@ const Login = () => {
     e.preventDefault();
     axios.post('/login', formData).then((res) => {
       if (res.data.status == 200) {
-        localStorage.setItem('isLoggedIn', 'success');
-        localStorage.setItem('isRegistered', 'success');
+        localStorage.setItem('user', res.data.obj.user)
         router.push('/');
+      }
+      else {
+        alert(res.data.obj.error)
       }
     }).catch(err => {
       console.log(err);
@@ -60,6 +69,7 @@ const Login = () => {
           />
 
           <MyButton
+            id='loginButton'
             type="submit"
             text="Log In"
             className="bg-blue-500 text-white w-full px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 mt-3"

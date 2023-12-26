@@ -5,18 +5,21 @@ interface MySearchableDropdownProps {
   options: any;
   onSelect: any;
   label: any;
+  setOptions: any;
 }
 
 const MySearchableDropdown: React.FC<MySearchableDropdownProps> = ({
   options,
   label,
   onSelect,
+  setOptions
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [filteredOptions, setFilteredOptions] = useState([]);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -35,7 +38,11 @@ const MySearchableDropdown: React.FC<MySearchableDropdownProps> = ({
   }, []);
 
   const handleToggleDropdown = () => {
+    if (!isOpen) {
+      setFilteredOptions(options)
+    }
     setIsOpen(!isOpen);
+
   };
 
   const handleSelectOption = (option: string) => {
@@ -45,7 +52,13 @@ const MySearchableDropdown: React.FC<MySearchableDropdownProps> = ({
   };
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    const term = event.target.value;
+    setSearchTerm(term);
+
+    const filtered = options.filter((option: string) =>
+      option.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredOptions(filtered)
   };
 
   return (
@@ -78,7 +91,7 @@ const MySearchableDropdown: React.FC<MySearchableDropdownProps> = ({
             className="w-full p-2 border-b focus:outline-none"
           />
           <ul className="py-2">
-            {options.map((option: any) => (
+            {filteredOptions.map((option: any) => (
               <li
                 key={option}
                 onClick={() => handleSelectOption(option)}
