@@ -21,7 +21,8 @@ export const POST = async (request: Request) => {
       country: country.name.common,
       amount,
       exchangedAmount: amount * exchangeRate,
-      currency: symbol
+      currency: symbol,
+      population: country.population
     })
     return Response(exchange, 200)
   } catch (error: any) {

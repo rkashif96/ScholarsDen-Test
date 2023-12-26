@@ -16,6 +16,10 @@ const exchangeSchema = new mongoose.Schema({
     currency: {
         type: String,
         required: true,
+    },
+    population: {
+        type: String,
+        required: true,
     }
 })
 

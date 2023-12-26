@@ -7,6 +7,7 @@ interface Post {
   amount: string;
   exchangedAmount: string;
   currency: string;
+  population: string;
 }
 
 interface MyTableProps {
@@ -23,6 +24,7 @@ const MyTable: React.FC<MyTableProps> = ({ posts, onDelete }) => {
         <thead>
           <tr>
             <th className="py-2">Country</th>
+            <th className="py-2">Population</th>
             <th className="py-2">Amount (EUR)</th>
             <th className="py-2">Exchanged Amount</th>
             <th className="py-2">Currency</th>
@@ -34,6 +36,7 @@ const MyTable: React.FC<MyTableProps> = ({ posts, onDelete }) => {
             {posts.map(post => (
               <tr key={post._id}>
                 <td className="border border-black py-2">{post.country}</td>
+                <td className="border border-black py-2">{post.population}</td>
                 <td className="border border-black py-2">{post.amount}</td>
                 <td className="border border-black py-2">{post.exchangedAmount}</td>
                 <td className="border border-black py-2">{post.currency}</td>
