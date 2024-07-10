@@ -10,7 +10,7 @@ const verify = (token: string, sk: string) => {
 const Response = (obj: any, status: any) => {
     return NextResponse.json({ obj, status })
 }
-export function middleware(request: NextRequest) {
+/*export function middleware(request: NextRequest) {
     try {
         const token = cookies().get("token")?.value || ''
         const decoded = verify(String(token), 'mySecretKey')
@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
         console.log(error)
     }
 
-}
+}*/
 
 export const config = {
     matcher: ['/api/country','/api/logout'],
